@@ -192,24 +192,23 @@ function startQuiz(){
         `;
           playSongDiv.classList.remove("hidden");
     }
-        // Ending song play only 30 seconds
-let endingSong = null; // global variable
 
-function playEndingSong(){
-    if(!endingSong){
-        endingSong = new Audio('chennai.mp3'); // create once
-    }
-    endingSong.play().then(()=>{
-        // Stop after 30 seconds
-        setTimeout(()=>{
-            endingSong.pause();
-            endingSong.currentTime = 0;
-        }, 30000);
-    }).catch((e)=>{
-        console.log("Song play failed, user interaction needed", e);
-        alert("Click anywhere to play ending song");
-    });
-}
+// Ending song setup
+let endingSong = new Audio('chennai.mp3');
+
+const playSongDiv = document.getElementById("playSongDiv");
+const playSongBtn = document.getElementById("playSongBtn");
+
+playSongBtn.addEventListener("click", ()=>{
+    endingSong.play();
+    // Stop after 30 seconds
+    setTimeout(()=> {
+        endingSong.pause();
+        endingSong.currentTime = 0;
+    }, 30000);
+    playSongDiv.classList.add("hidden"); // hide button after click
+});
+
 
 
 
@@ -237,6 +236,7 @@ function checkAnswer(option){
 
 </body>
 </html>
+
 
 
 
