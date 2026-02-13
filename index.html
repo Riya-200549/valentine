@@ -1,17 +1,228 @@
 <!DOCTYPE html>
 <html>
-<body style="text-align:center; margin-top:100px; background:pink;">
+<head>
+<title>Valentine 💖</title>
 
-<h1>Will you be my Valentine? 💖</h1>
+<style>
+body{
+    text-align:center;
+    font-family:Arial, sans-serif;
+    background:#ffc2d1;
+    overflow:hidden;
+    transition:0.3s;
+}
 
-<button onclick="document.body.innerHTML='<h1>Yayyy❤️</h1>'">
-Yes ❤️
-</button>
+button{
+    padding:10px 20px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin:8px;
+}
 
-<button onmouseover="this.style.position='absolute'; this.style.left=Math.random()*500+'px'; this.style.top=Math.random()*400+'px';">
-No 😜
-</button>
+#yesBtn{
+    background:#ff4d6d;
+    color:white;
+    position:absolute;
+}
+
+#noBtn{
+    background:#444;
+    color:white;
+    position:absolute;
+}
+
+.hidden{
+    display:none;
+}
+
+img{
+    width:230px;
+    border-radius:12px;
+    margin-top:15px;
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0% { transform: translate(0px, 0px); }
+  25% { transform: translate(-8px, 0px); }
+  50% { transform: translate(8px, 0px); }
+  75% { transform: translate(-8px, 0px); }
+  100% { transform: translate(0px, 0px); }
+}
+.shake{
+  animation: shake 0.4s;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="mainText">Will You Be My Valentine? 💖</h1>
+
+<button id="yesBtn">Yes 💕</button>
+<button id="noBtn">No 😜</button>
+
+<div id="stage2" class="hidden">
+    <h2>You are the best thing that ever happened to me 💖</h2>
+    <div id="quiz"></div>
+</div>
+
+<script>
+
+let yesMoveCount = 0;
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const stage2 = document.getElementById("stage2");
+const mainText = document.getElementById("mainText");
+const quiz = document.getElementById("quiz");
+
+yesBtn.style.left="40%";
+yesBtn.style.top="50%";
+noBtn.style.left="55%";
+noBtn.style.top="50%";
+
+function moveButton(btn){
+    btn.style.left = Math.random()*80 + "%";
+    btn.style.top = Math.random()*80 + "%";
+}
+
+yesBtn.addEventListener("mouseover",()=>{
+    if(yesMoveCount < 3){
+        moveButton(yesBtn);
+        yesMoveCount++;
+    }
+});
+
+noBtn.addEventListener("mouseover",()=>{
+    moveButton(noBtn);
+});
+
+yesBtn.addEventListener("click",()=>{
+    mainText.style.display="none";
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+    stage2.classList.remove("hidden");
+    startQuiz();
+});
+
+let questionIndex = 0;
+
+const questions = [
+
+{
+question:"Have you ever thought about leaving because of something I did?",
+options:[
+"Sometimes I feel hurt but I try to fix it",
+"Sometimes I feel confused but I still stay"
+],
+correct:"Sometimes I feel hurt but I try to fix it",
+image:"photo1.jpg"
+},
+
+{
+question:"Do you feel loved by me in the way you need?",
+options:[
+"I feel loved most of the time",
+"I feel cared for but I need small changes"
+],
+correct:"I feel loved most of the time",
+image:"photo2.jpg"
+},
+
+{
+question:"What scares you most about being with me long-term?",
+options:[
+"Losing our connection slowly",
+"Not growing together properly"
+],
+correct:"Losing our connection slowly",
+image:"photo3.jpg"
+},
+
+{
+question:"Do you ever feel like you change yourself for me?",
+options:[
+"I adjust small things but I am still me",
+"I hide some feelings to avoid problems"
+],
+correct:"I adjust small things but I am still me",
+image:"photo4.jpg"
+},
+
+{
+question:"What scares you about building a future with me?",
+options:[
+"Not understanding each other deeply",
+"Not putting equal effort always"
+],
+correct:"Not understanding each other deeply",
+image:"photo5.jpg"
+},
+
+{
+question:"What emotional effort do you make in this relationship?",
+options:[
+"Trying to understand you better",
+"Keeping some feelings to myself"
+],
+correct:"Trying to understand you better",
+image:"photo6.jpg"
+}
+
+];
+
+function startQuiz(){
+    if(questionIndex < questions.length){
+        let q = questions[questionIndex];
+        quiz.innerHTML = `
+        <h3>${q.question}</h3>
+        <button onclick="checkAnswer('${q.options[0]}')">${q.options[0]}</button>
+        <button onclick="checkAnswer('${q.options[1]}')">${q.options[1]}</button>
+        <div id="result"></div>
+        `;
+    }else{
+        // Simple Clean Ending
+        quiz.innerHTML = `
+        <h2>I choose you 🤍</h2>
+        <p style="font-size:18px; line-height:1.6;">
+        Not because we are perfect. <br>
+        But because we are willing to understand each other. <br><br>
+        Today. Tomorrow. Always.
+        </p>
+        <img src="photo7.jpg">
+        `;
+    }
+}
+
+function checkAnswer(answer){
+    let q = questions[questionIndex];
+    let result = document.getElementById("result");
+
+    if(answer === q.correct){
+        result.innerHTML = `
+        <p style="color:green;font-weight:bold;">Correct 💖</p>
+        <img src="${q.image}">
+        `;
+    }else{
+        result.innerHTML = `
+        <p style="color:red;font-weight:bold;">Wrong answer</p>
+        <h1>😒 😵 🤕 😵‍💫</h1>
+        `;
+
+        document.body.classList.add("shake");
+        setTimeout(()=> document.body.classList.remove("shake"),400);
+    }
+
+    setTimeout(()=>{
+        questionIndex++;
+        startQuiz();
+    },2000);
+}
+
+</script>
 
 </body>
 </html>
-
