@@ -110,56 +110,53 @@ noBtn.addEventListener("click",()=>{
     alert("You can't say no! 💖");
 });
 
-// Yes button click -> start quiz + song
+// Yes button click -> start quiz (song only last question)
 yesBtn.addEventListener("click",()=>{
     mainText.style.display="none";
     yesBtn.style.display="none";
     noBtn.style.display="none";
     stage2.classList.remove("hidden");
     startQuiz();
-
-    // Play song
-    const song = new Audio('kidaithai.mp3');
-    song.play();
 });
 
 let questionIndex = 0;
 
+// Quiz questions with alternating correct options
 const questions = [
 {
 question:"Have you ever thought about leaving because of something I did?",
-options:["Sometimes I feel confused but I still stay","Sometimes I feel hurt but I try to fix it"],
-correct:"Sometimes I feel hurt but I try to fix it",
+options:["Sometimes I feel hurt but I try to fix it","Sometimes I feel confused but I still stay"],
+correctIndex:0,
 image:"pic1.jpeg"
 },
 {
 question:"Do you feel loved by me in the way you need?",
 options:["I feel loved most of the time","I feel cared for but I need small changes"],
-correct:"I feel loved most of the time",
-image:"pic7.jpeg"
+correctIndex:1,
+image:"pic2.jpeg"
 },
 {
 question:"What scares you most about being with me long-term?",
 options:["Losing our connection slowly","Not growing together properly"],
-correct:"Losing our connection slowly",
-image:"pic2.jpeg"
+correctIndex:0,
+image:"pic7.jpeg"
 },
 {
 question:"Do you ever feel like you change yourself for me?",
-options:["I hide some feelings to avoid problems","I adjust small things but I am still me"],
-correct:"I adjust small things but I am still me",
-image:"pic5.jpeg"
+options:["I adjust small things but I am still me","I hide some feelings to avoid problems"],
+correctIndex:1,
+image:"pic4.jpeg"
 },
 {
 question:"What scares you about building a future with me?",
-options:["Not putting equal effort always","Not understanding each other deeply"],
-correct:"Not understanding each other deeply",
-image:"pic4.jpeg"
+options:["Not understanding each other deeply","Not putting equal effort always"],
+correctIndex:0,
+image:"pic5.jpeg"
 },
 {
 question:"What emotional effort do you make in this relationship?",
 options:["Trying to understand you better","Keeping some feelings to myself"],
-correct:"Trying to understand you better",
+correctIndex:1,
 image:"pic6.jpeg"
 }
 ];
@@ -169,30 +166,33 @@ function startQuiz(){
         let q = questions[questionIndex];
         quiz.innerHTML = `
         <h3>${q.question}</h3>
-        <button onclick="checkAnswer('${q.options[0]}')">${q.options[0]}</button>
-        <button onclick="checkAnswer('${q.options[1]}')">${q.options[1]}</button>
+        <button onclick="checkAnswer(0)">${q.options[0]}</button>
+        <button onclick="checkAnswer(1)">${q.options[1]}</button>
         <div id="result"></div>
         `;
     }else{
-        // Final ending with song line
+        // Ending text + song
         quiz.innerHTML = `
         <h2>I choose you 🤍</h2>
         <p style="font-size:18px; line-height:1.6;">
-        Not just we are perfect. <br>
-        But because we are willing to 
-        understand each other.<br><br>
-          Today. Tomorrow. Always.
+        Not because we are perfect. <br>
+        But because we are willing to understand each other. <br>
+        Today. Tomorrow. Always. <br><br>
+        🎵 "Kidaithai, kidaithai, en kanavilum unai thaandi..." – Chennai Part 2 🎵
         </p>
         <img src="pic3.jpeg">
+        <audio id="song" autoplay>
+            <source src="kidaithai.mp3" type="audio/mpeg">
+        </audio>
         `;
     }
 }
 
-function checkAnswer(answer){
+function checkAnswer(option){
     let q = questions[questionIndex];
     let result = document.getElementById("result");
 
-    if(answer === q.correct){
+    if(option === q.correctIndex){
         result.innerHTML = `<p style="color:green;font-weight:bold;">Correct 💖</p><img src="${q.image}">`;
     }else{
         result.innerHTML = `<p style="color:red;font-weight:bold;">Wrong answer</p><h1>😒 😵 🤕 😵‍💫</h1>`;
