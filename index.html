@@ -19,18 +19,17 @@ button{
     border-radius:8px;
     cursor:pointer;
     margin:8px;
+    position:absolute;
 }
 
 #yesBtn{
     background:#ff4d6d;
     color:white;
-    position:absolute;
 }
 
 #noBtn{
     background:#444;
     color:white;
-    position:absolute;
 }
 
 .hidden{
@@ -70,7 +69,6 @@ img{
 </div>
 
 <script>
-
 let yesMoveCount = 0;
 
 const yesBtn = document.getElementById("yesBtn");
@@ -79,16 +77,22 @@ const stage2 = document.getElementById("stage2");
 const mainText = document.getElementById("mainText");
 const quiz = document.getElementById("quiz");
 
+// Initial positions
 yesBtn.style.left="40%";
 yesBtn.style.top="50%";
+yesBtn.style.display="block";
+
 noBtn.style.left="55%";
 noBtn.style.top="50%";
+noBtn.style.display="block";
 
+// Move button randomly
 function moveButton(btn){
     btn.style.left = Math.random()*80 + "%";
     btn.style.top = Math.random()*80 + "%";
 }
 
+// Yes button hover
 yesBtn.addEventListener("mouseover",()=>{
     if(yesMoveCount < 3){
         moveButton(yesBtn);
@@ -96,82 +100,68 @@ yesBtn.addEventListener("mouseover",()=>{
     }
 });
 
-noBtn.addEventListener("mouseover",()=>{
-    moveButton(noBtn);
+// No button hover
+noBtn.addEventListener("mouseover",()=>{ moveButton(noBtn); });
+
+// No button click reaction
+noBtn.addEventListener("click",()=>{
+    document.body.classList.add("shake");
+    setTimeout(()=> document.body.classList.remove("shake"),400);
+    alert("You can't say no! 💖");
 });
 
+// Yes button click -> start quiz + song
 yesBtn.addEventListener("click",()=>{
     mainText.style.display="none";
     yesBtn.style.display="none";
     noBtn.style.display="none";
     stage2.classList.remove("hidden");
     startQuiz();
+
+    // Play song
+    const song = new Audio('kidaithai.mp3');
+    song.play();
 });
 
 let questionIndex = 0;
 
 const questions = [
-
 {
 question:"Have you ever thought about leaving because of something I did?",
-options:[
-"Sometimes I feel hurt but I try to fix it",
-"Sometimes I feel confused but I still stay"
-],
+options:["Sometimes I feel confused but I still stay","Sometimes I feel hurt but I try to fix it"],
 correct:"Sometimes I feel hurt but I try to fix it",
 image:"pic1.jpeg"
 },
-
 {
 question:"Do you feel loved by me in the way you need?",
-options:[
-"I feel loved most of the time",
-"I feel cared for but I need small changes"
-],
+options:["I feel loved most of the time","I feel cared for but I need small changes"],
 correct:"I feel loved most of the time",
 image:"pic7.jpeg"
 },
-
 {
 question:"What scares you most about being with me long-term?",
-options:[
-"Losing our connection slowly",
-"Not growing together properly"
-],
+options:["Losing our connection slowly","Not growing together properly"],
 correct:"Losing our connection slowly",
 image:"pic2.jpeg"
 },
-
 {
 question:"Do you ever feel like you change yourself for me?",
-options:[
-"I adjust small things but I am still me",
-"I hide some feelings to avoid problems"
-],
+options:["I hide some feelings to avoid problems","I adjust small things but I am still me"],
 correct:"I adjust small things but I am still me",
 image:"pic5.jpeg"
 },
-
 {
 question:"What scares you about building a future with me?",
-options:[
-"Not understanding each other deeply",
-"Not putting equal effort always"
-],
+options:["Not putting equal effort always","Not understanding each other deeply"],
 correct:"Not understanding each other deeply",
-image:"pic6.jpeg"
+image:"pic4.jpeg"
 },
-
 {
 question:"What emotional effort do you make in this relationship?",
-options:[
-"Trying to understand you better",
-"Keeping some feelings to myself"
-],
+options:["Trying to understand you better","Keeping some feelings to myself"],
 correct:"Trying to understand you better",
-image:"pic4.jpeg"
+image:"pic6.jpeg"
 }
-
 ];
 
 function startQuiz(){
@@ -184,22 +174,16 @@ function startQuiz(){
         <div id="result"></div>
         `;
     }else{
-        // Simple Clean Ending
+        // Final ending with song line
         quiz.innerHTML = `
         <h2>I choose you 🤍</h2>
         <p style="font-size:18px; line-height:1.6;">
-        Not because we are perfect. <br>
-        But because we are willing to understand each other. <br><br>
-        Today. Tomorrow. Always.
+        Not just we are perfect. <br>
+        But because we are willing to 
+        understand each other.<br><br>
+          Today. Tomorrow. Always.
         </p>
         <img src="pic3.jpeg">
-    <audio id="song" autoplay>
-      <source src="_Nee_Kidaithai_Chennai_600028_li_Tamil_Movie_Song_Ringtone_(by Fringster.com).mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    `;
-}
-
         `;
     }
 }
@@ -209,16 +193,9 @@ function checkAnswer(answer){
     let result = document.getElementById("result");
 
     if(answer === q.correct){
-        result.innerHTML = `
-        <p style="color:green;font-weight:bold;">Correct 💖</p>
-        <img src="${q.image}">
-        `;
+        result.innerHTML = `<p style="color:green;font-weight:bold;">Correct 💖</p><img src="${q.image}">`;
     }else{
-        result.innerHTML = `
-        <p style="color:red;font-weight:bold;">Wrong answer</p>
-        <h1>😒 😵 🤕 😵‍💫</h1>
-        `;
-
+        result.innerHTML = `<p style="color:red;font-weight:bold;">Wrong answer</p><h1>😒 😵 🤕 😵‍💫</h1>`;
         document.body.classList.add("shake");
         setTimeout(()=> document.body.classList.remove("shake"),400);
     }
@@ -228,13 +205,7 @@ function checkAnswer(answer){
         startQuiz();
     },2000);
 }
-
 </script>
 
 </body>
 </html>
-
-
-
-
-
