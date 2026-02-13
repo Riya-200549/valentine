@@ -182,21 +182,24 @@ function startQuiz(){
         <p style="font-size:18px; line-height:1.6;">
         Not because we are perfect. <br>
         But because we are willing to understand each other. <br>
-        Today. Tomorrow. Always. <br><br>
-        🎵 "Kidaithai, kidaithai, en kanavilum unai thaandi..." – Chennai Part 2 🎵
+        Today. Tomorrow. Always.
         </p>
         <img src="pic3.jpeg">
         `;
         // Ending song play only 30 seconds
+// Ending song play only 30 seconds
 function playEndingSong(){
     const song = new Audio('kidaithai.mp3');
-    song.play();
-    // Stop song after 30 seconds (30000 milliseconds)
-    setTimeout(()=> { 
-        song.pause(); 
-        song.currentTime = 0; 
-    }, 30000);
+    song.play().then(()=>{
+        setTimeout(()=> { 
+            song.pause(); 
+            song.currentTime = 0; 
+        }, 30000); // 30 sec play
+    }).catch((e)=>{
+        console.log("Song play failed, user interaction needed", e);
+    });
 }
+
 
     }
 }
@@ -222,5 +225,6 @@ function checkAnswer(option){
 
 </body>
 </html>
+
 
 
