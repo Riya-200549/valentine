@@ -19,10 +19,6 @@ button{
     border-radius:8px;
     cursor:pointer;
     margin:8px;
-    /* position:absolute; */  /* <-- comment this line */
-}
-#yesBtn, #noBtn{
-    position:absolute; /* remove this line */
 }
 
 .hidden{
@@ -46,6 +42,15 @@ img{
 .shake{
   animation: shake 0.4s;
 }
+
+/* Quiz options flex */
+#options{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
 </style>
 </head>
 
@@ -53,62 +58,56 @@ img{
 
 <h1 id="mainText">Will You Be My Valentine? 💖</h1>
 
+<!-- First page buttons in flex container -->
 <div id="mainButtons" style="margin-top:50px; display:flex; justify-content:center; gap:40px;">
     <button id="yesBtn">Yes 💕</button>
     <button id="noBtn">No 😜</button>
 </div>
-
 
 <div id="stage2" class="hidden">
     <h2>You are the best thing that ever happened to me 💖</h2>
     <div id="quiz"></div>
 </div>
 
-    <div id="playSongDiv" class="hidden" style="margin-top:15px;">
+<!-- Play Ending Song button -->
+<div id="playSongDiv" class="hidden" style="margin-top:15px;">
     <button id="playSongBtn">Play Ending Song 🎵</button>
 </div>
 
 <script>
+// Yes/No button logic
 let yesMoveCount = 0;
-
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const stage2 = document.getElementById("stage2");
 const mainText = document.getElementById("mainText");
 const quiz = document.getElementById("quiz");
 
-yesBtn.style.left="40%";
-yesBtn.style.top="50%";
-noBtn.style.left="55%";
-noBtn.style.top="50%";
-
-
-// Move button randomly
+// Move buttons randomly on hover
 function moveButton(btn){
+    btn.style.position = "absolute";
     btn.style.left = Math.random()*80 + "%";
     btn.style.top = Math.random()*80 + "%";
 }
 
-// Yes button hover
-yesBtn.addEventListener("mouseover",()=>{
+yesBtn.addEventListener("mouseover", ()=>{
     if(yesMoveCount < 3){
         moveButton(yesBtn);
         yesMoveCount++;
     }
 });
 
-// No button hover
-noBtn.addEventListener("mouseover",()=>{ moveButton(noBtn); });
+noBtn.addEventListener("mouseover", ()=>{ moveButton(noBtn); });
 
 // No button click reaction
-noBtn.addEventListener("click",()=>{
+noBtn.addEventListener("click", ()=>{
     document.body.classList.add("shake");
     setTimeout(()=> document.body.classList.remove("shake"),400);
     alert("You can't say no! 💖");
 });
 
-// Yes button click -> start quiz (song only last question)
-yesBtn.addEventListener("click",()=>{
+// Yes button click -> start quiz
+yesBtn.addEventListener("click", ()=>{
     mainText.style.display="none";
     yesBtn.style.display="none";
     noBtn.style.display="none";
@@ -116,9 +115,8 @@ yesBtn.addEventListener("click",()=>{
     startQuiz();
 });
 
+// Quiz data
 let questionIndex = 0;
-
-// Quiz questions with alternating correct options
 const questions = [
 {
 question:"Have you ever thought about leaving because of something I did?",
@@ -157,13 +155,13 @@ correctIndex:1,
 image:"pic6.jpeg"
 }
 ];
+
+// Start Quiz
 function startQuiz(){
     if(questionIndex < questions.length){
         let q = questions[questionIndex];
-        // Clear previous content
         quiz.innerHTML = `<h3>${q.question}</h3><div id="options"></div><div id="result"></div>`;
         const optionsDiv = document.getElementById("options");
-        // Loop through options to create buttons
         q.options.forEach((opt, idx)=>{
             const btn = document.createElement("button");
             btn.textContent = opt;
@@ -171,7 +169,7 @@ function startQuiz(){
             optionsDiv.appendChild(btn);
         });
     }else{
-        // Ending text + song
+        // Ending section
         quiz.innerHTML = `
         <h2>I choose you 🤍</h2>
         <p style="font-size:18px; line-height:1.6;">
@@ -181,39 +179,14 @@ function startQuiz(){
         </p>
         <img src="pic3.jpeg">
         `;
-          playSongDiv.classList.remove("hidden");
-    }
-
-let endingSong = null; // global variable
-
-function playEndingSong(){
-    if(!endingSong){
-        endingSong = new Audio('kidaithai.mp3'); // create once
-    }
-    endingSong.play().then(()=>{
-        // Stop after 30 seconds
-        setTimeout(()=>{
-            endingSong.pause();
-            endingSong.currentTime = 0;
-        }, 30000);
-    }).catch((e)=>{
-        console.log("Song play failed, user interaction needed", e);
-        alert("Click anywhere to play ending song");
-    });
-}
-
-
-
-
-
-
+        playSongDiv.classList.remove("hidden"); // show song button
     }
 }
 
+// Check quiz answer
 function checkAnswer(option){
     let q = questions[questionIndex];
     let result = document.getElementById("result");
-
     if(option === q.correctIndex){
         result.innerHTML = `<p style="color:green;font-weight:bold;">Correct 💖</p><img src="${q.image}">`;
     }else{
@@ -221,26 +194,30 @@ function checkAnswer(option){
         document.body.classList.add("shake");
         setTimeout(()=> document.body.classList.remove("shake"),400);
     }
-
     setTimeout(()=>{
         questionIndex++;
         startQuiz();
     },2000);
 }
+
+// Ending song global
+let endingSong = new Audio('chennai.mp3');
+const playSongDiv = document.getElementById("playSongDiv");
+const playSongBtn = document.getElementById("playSongBtn");
+
+playSongBtn.addEventListener("click", ()=>{
+    endingSong.play().then(()=>{
+        setTimeout(()=>{
+            endingSong.pause();
+            endingSong.currentTime = 0;
+        },30000);
+    }).catch((e)=>{
+        console.log("Song play failed, user interaction needed", e);
+        alert("Click anywhere to play ending song");
+    });
+    playSongDiv.classList.add("hidden"); // hide button after click
+});
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
