@@ -160,7 +160,6 @@ correctIndex:1,
 image:"pic6.jpeg"
 }
 ];
-
 function startQuiz(){
     if(questionIndex < questions.length){
         let q = questions[questionIndex];
@@ -181,10 +180,18 @@ function startQuiz(){
         🎵 "Kidaithai, kidaithai, en kanavilum unai thaandi..." – Chennai Part 2 🎵
         </p>
         <img src="pic3.jpeg">
-        <audio id="song" autoplay>
-            <source src="kidaithai.mp3" type="audio/mpeg">
-        </audio>
         `;
+        // Ending song play only 30 seconds
+function playEndingSong(){
+    const song = new Audio('kidaithai.mp3');
+    song.play();
+    // Stop song after 30 seconds (30000 milliseconds)
+    setTimeout(()=> { 
+        song.pause(); 
+        song.currentTime = 0; 
+    }, 30000);
+}
+
     }
 }
 
@@ -209,3 +216,4 @@ function checkAnswer(option){
 
 </body>
 </html>
+
