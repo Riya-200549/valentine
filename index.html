@@ -19,17 +19,19 @@ button{
     border-radius:8px;
     cursor:pointer;
     margin:8px;
-    position:absolute;
+    /* position:absolute; */  /* <-- comment this line */
 }
 
 #yesBtn{
     background:#ff4d6d;
     color:white;
+    position:absolute; /* only for main Yes button */
 }
 
 #noBtn{
     background:#444;
     color:white;
+    position:absolute; /* only for main No button */
 }
 
 .hidden{
@@ -163,12 +165,16 @@ image:"pic6.jpeg"
 function startQuiz(){
     if(questionIndex < questions.length){
         let q = questions[questionIndex];
-        quiz.innerHTML = `
-        <h3>${q.question}</h3>
-        <button onclick="checkAnswer(0)">${q.options[0]}</button>
-        <button onclick="checkAnswer(1)">${q.options[1]}</button>
-        <div id="result"></div>
-        `;
+        // Clear previous content
+        quiz.innerHTML = `<h3>${q.question}</h3><div id="options"></div><div id="result"></div>`;
+        const optionsDiv = document.getElementById("options");
+        // Loop through options to create buttons
+        q.options.forEach((opt, idx)=>{
+            const btn = document.createElement("button");
+            btn.textContent = opt;
+            btn.onclick = ()=> checkAnswer(idx);
+            optionsDiv.appendChild(btn);
+        });
     }else{
         // Ending text + song
         quiz.innerHTML = `
@@ -216,4 +222,5 @@ function checkAnswer(option){
 
 </body>
 </html>
+
 
