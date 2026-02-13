@@ -70,6 +70,10 @@ img{
     <div id="quiz"></div>
 </div>
 
+    <div id="playSongDiv" class="hidden" style="margin-top:15px;">
+    <button id="playSongBtn">Play Ending Song 🎵</button>
+</div>
+
 <script>
 let yesMoveCount = 0;
 
@@ -186,6 +190,8 @@ function startQuiz(){
         </p>
         <img src="pic3.jpeg">
         `;
+          playSongDiv.classList.remove("hidden");
+    }
         // Ending song play only 30 seconds
 let endingSong = null; // global variable
 
@@ -231,6 +237,7 @@ function checkAnswer(option){
 
 </body>
 </html>
+
 
 
 
