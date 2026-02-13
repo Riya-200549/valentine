@@ -21,19 +21,9 @@ button{
     margin:8px;
     /* position:absolute; */  /* <-- comment this line */
 }
-#yesBtn{
-    background:#ff4d6d;
-    color:white;
-    position:absolute;
+#yesBtn, #noBtn{
+    position:absolute; /* remove this line */
 }
-
-#noBtn{
-    background:#444;
-    color:white;
-    position:absolute;
-}
-
-
 
 .hidden{
     display:none;
@@ -63,8 +53,11 @@ img{
 
 <h1 id="mainText">Will You Be My Valentine? 💖</h1>
 
-<button id="yesBtn">Yes 💕</button>
-<button id="noBtn">No 😜</button>
+<div id="mainButtons" style="margin-top:50px; display:flex; justify-content:center; gap:40px;">
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 😜</button>
+</div>
+
 
 <div id="stage2" class="hidden">
     <h2>You are the best thing that ever happened to me 💖</h2>
@@ -238,6 +231,7 @@ function checkAnswer(option){
 
 </body>
 </html>
+
 
 
 
