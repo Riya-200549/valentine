@@ -187,21 +187,21 @@ function startQuiz(){
         <img src="pic3.jpeg">
         `;
         // Ending song play only 30 seconds
-// Ending song play only 30 seconds
-// Ending song play only 30 seconds
+let endingSong = null; // global variable
+
 function playEndingSong(){
-    const song = new Audio('chennai.mp3');
-    // Try play
-    song.play().then(()=>{
-        console.log("Song started");
+    if(!endingSong){
+        endingSong = new Audio('chennai.mp3'); // create once
+    }
+    endingSong.play().then(()=>{
         // Stop after 30 seconds
         setTimeout(()=>{
-            song.pause();
-            song.currentTime = 0;
-        },30000);
+            endingSong.pause();
+            endingSong.currentTime = 0;
+        }, 30000);
     }).catch((e)=>{
         console.log("Song play failed, user interaction needed", e);
-        alert("Click anywhere to play ending song"); // fallback
+        alert("Click anywhere to play ending song");
     });
 }
 
@@ -231,6 +231,7 @@ function checkAnswer(option){
 
 </body>
 </html>
+
 
 
 
